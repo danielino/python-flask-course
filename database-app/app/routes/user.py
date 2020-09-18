@@ -26,6 +26,7 @@ def create():
             "id": u.id
         })
     except Exception as e:
+        db.session.rollback()
         return jsonify({
             "operation": "create",
             "status": "error",
