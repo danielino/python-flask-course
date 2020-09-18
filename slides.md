@@ -147,7 +147,35 @@ estendiamo il layout di base per la pagina `index.html` route("/")
 
 ---
 
-### Database SQL ORM
+### Flask-Cache
+
+`pip install Flask-Cache`
+
+```python
+from flask import Flask
+from flask.ext.cache import Cache
+
+app = Flask(__name__)
+# Check Configuring Flask-Cache section for more details
+cache = Cache(app,config={'CACHE_TYPE': 'simple'})
+
+@cache.cached(timeout=50)
+def index():
+    return render_template('index.html')
+```
+
+----
+
+#### Cache Backends
+
+* simple
+* filesystem
+* memcached
+* redis
+
+---
+
+### Flask-SQLAlchemy
 
 ```bash
 $ pip install flask-sqlalchemy
@@ -202,7 +230,42 @@ u.password = 'test'
 db.session.commit()
 ```
 
+---
 
+### Flask Forms (Flask-WTF)
 
+`pip install Flask-WTF`
 
+```python
+# forms.py
+from flask_wtf import FlaskForm
+from wtforms import StringField
+from wtforms.validators import DataRequired
+
+class MyForm(FlaskForm):
+    name = StringField('name', validators=[DataRequired()])
 ```
+
+----
+
+```python
+# app.py
+@app.route('/submit', methods=('GET', 'POST'))
+def submit():
+    form = MyForm()
+    if form.validate_on_submit():
+        return redirect('/success')
+    return render_template('submit.html', form=form)
+```
+
+----
+
+```jinja2
+# submit.html
+<form method="POST" action="/">
+    {{ form.csrf_token }}
+    {{ form.name.label }} {{ form.name(size=20) }}
+    <input type="submit" value="Go">
+</form>
+```
+
