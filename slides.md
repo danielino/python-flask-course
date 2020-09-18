@@ -1,8 +1,6 @@
 ---
 title: Corso Flask
 theme: sky
-revealOptions:
-    transition: 'fade'
 ---
 
 # Corso Flask
@@ -146,6 +144,7 @@ estendiamo il layout di base per la pagina `index.html` route("/")
 * Flask-WTF
 * Flask-Uploads
 
+[Awesome Flask](https://github.com/humiaozuzu/awesome-flask)
 
 ---
 
